@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4tqp3l1oqsen"]
+
+[ext_resource type="Script" path="res://scripts/rocket_launcher.gd" id="1_4ak10"]
+[ext_resource type="PackedScene" uid="uid://c4xgpcq2ibav4" path="res://scenes/fire_rate.tscn" id="2_xy8yx"]
+
+[node name="RocketLauncher" type="Node2D"]
+script = ExtResource("1_4ak10")
+
+[node name="Fire Rate" parent="." instance=ExtResource("2_xy8yx")]
+wait_time = 0.32
