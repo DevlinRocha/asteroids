@@ -1,15 +1,79 @@
 extends Node
 
+const ASTEROID_SPAWN_POSITION := {
+	LEFT = {
+		MIN_X = 64,
+		MIN_Y = 64,
+		MAX_X = 128,
+		MAX_Y = 576,
+	},
+	RIGHT = {
+		MIN_X = 1024,
+		MIN_Y = 64,
+		MAX_X = 1088,
+		MAX_Y = 576
+	},
+	TOP = {
+		MIN_X = 64,
+		MIN_Y = 64,
+		MAX_X = 1088,
+		MAX_Y = 128,
+	},
+	BOTTOM = {
+		MIN_X = 64,
+		MIN_Y = 576,
+		MAX_X = 1088,
+		MAX_Y = 512,
+	},
+}
 var player_spawn_position: Vector2
+var current_level := 1
+var current_score := 0
 
 func _ready() -> void:
 	player_spawn_position = get_viewport().size / 2
-	wipe("d")
-	respawn_player()
+	new_level()
 
 
 func _on_player_hit() -> void:
 	get_tree().create_timer(3).timeout.connect(respawn_player)
+
+
+func _on_asteroid_hit(value: int, asteroid: Asteroid) -> void:
+	current_score += value
+
+	match value:
+		20:
+			spawn_asteroid(Asteroid.Size.MEDIUM, asteroid.global_position)
+		50:
+			spawn_asteroid(Asteroid.Size.SMALL, asteroid.global_position)
+		100:
+			return
+
+
+
+func new_level() -> void:
+	wipe("all")
+	respawn_player()
+	spawn_asteroid(Asteroid.Size.LARGE)
+	spawn_asteroid(Asteroid.Size.LARGE)
+	spawn_asteroid(Asteroid.Size.LARGE)
+	spawn_asteroid(Asteroid.Size.LARGE)
+
+
+func spawn_asteroid(size: Asteroid.Size, position := get_random_spawn_point()) -> void:
+	const ASTEROID := preload("res://scenes/asteroid.tscn")
+	var new_asteroid := ASTEROID.instantiate()
+	new_asteroid.size = size
+	new_asteroid.global_position = position
+	new_asteroid.hit.connect(_on_asteroid_hit)
+	add_child(new_asteroid)
+
+
+func get_random_spawn_point() -> Vector2:
+	var spawn_area = ASTEROID_SPAWN_POSITION.keys().pick_random()
+	var new_position = ASTEROID_SPAWN_POSITION[spawn_area]
+	return Vector2(randi_range(new_position.MIN_X, new_position.MAX_X), randi_range(new_position.MIN_Y, new_position.MAX_Y))
 
 
 func respawn_player() -> void:
