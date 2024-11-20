@@ -1,8 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://bedi235rdjhmp"]
+[gd_scene load_steps=4 format=3 uid="uid://bedi235rdjhmp"]
 
 [ext_resource type="PackedScene" uid="uid://sid1k1bruikk" path="res://scenes/player.tscn" id="1_go3r2"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_ivmiq"]
+[ext_resource type="PackedScene" uid="uid://cbd7vsp0eeex4" path="res://scenes/asteroid.tscn" id="2_rhbfn"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_ivmiq")
 
 [node name="Player" parent="." instance=ExtResource("1_go3r2")]
-position = Vector2(576, 319.5)
+position = Vector2(576, 324)
+
+[node name="Asteroid" parent="." instance=ExtResource("2_rhbfn")]
+position = Vector2(384, 128)

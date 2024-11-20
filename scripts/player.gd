@@ -1,11 +1,17 @@
+class_name Player
 extends CharacterBody2D
 
+signal hit
+
+const SPEED = 256.0
+const TURN_SPEED = 2.0
 
 @onready var rocket_launcher: RocketLauncher = $RocketLauncher
 
 
-const SPEED = 256.0
-const TURN_SPEED = 2.0
+func _ready() -> void:
+	if not hit.is_connected(_on_hit):
+		hit.connect(_on_hit)
 
 
 func _physics_process(delta: float) -> void:
@@ -25,3 +31,10 @@ func _physics_process(delta: float) -> void:
 
 
 	move_and_slide()
+
+
+func _on_hit() -> void:
+	const EXPLOSION := preload("res://effects/explosion.tscn")
+	var new_explosion := EXPLOSION.instantiate()
+	new_explosion.explode(self)
+	queue_free()
