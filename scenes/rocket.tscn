@@ -7,8 +7,6 @@
 size = Vector2(6, 16)
 
 [node name="Rocket" type="Area2D" groups=["projectiles"]]
-collision_layer = 16
-collision_mask = 30
 script = ExtResource("1_t772m")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
