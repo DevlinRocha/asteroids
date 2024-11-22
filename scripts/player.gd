@@ -23,12 +23,11 @@ func _physics_process(delta: float) -> void:
 
 	var acceleration := Input.get_axis("accelerate", "decelerate")
 	if acceleration:
-		position += transform.y * acceleration * SPEED * delta
+		velocity += transform.y * acceleration * SPEED * delta
 
 	var shooting := Input.is_action_pressed("shoot")
 	if shooting:
 		rocket_launcher.fire()
-
 
 	move_and_slide()
 
