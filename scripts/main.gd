@@ -51,7 +51,6 @@ func _on_asteroid_hit(value: int, asteroid: Asteroid) -> void:
 			return
 
 
-
 func new_level() -> void:
 	wipe("all")
 	respawn_player()
@@ -70,7 +69,7 @@ func spawn_asteroid(size: Asteroid.Size, position := get_random_spawn_point()) -
 	add_child(new_asteroid)
 
 
-func get_random_spawn_point() -> Vector2:
+func get_random_spawn_point() -> Vector2:    
 	var spawn_area = ASTEROID_SPAWN_POSITION.keys().pick_random()
 	var new_position = ASTEROID_SPAWN_POSITION[spawn_area]
 	return Vector2(randi_range(new_position.MIN_X, new_position.MAX_X), randi_range(new_position.MIN_Y, new_position.MAX_Y))

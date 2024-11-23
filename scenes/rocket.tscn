@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://btuddo5nwyi5y"]
+[gd_scene load_steps=5 format=3 uid="uid://btuddo5nwyi5y"]
 
 [ext_resource type="Script" path="res://scripts/rocket.gd" id="1_t772m"]
 [ext_resource type="Texture2D" uid="uid://072rvo0slqgc" path="res://assets/Rocket.svg" id="2_wpyo7"]
+[ext_resource type="PackedScene" uid="uid://b0aee6c2tdk3d" path="res://scenes/screen_wrap.tscn" id="3_0ye32"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j427t"]
 size = Vector2(6, 16)
@@ -17,6 +18,8 @@ texture = ExtResource("2_wpyo7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_j427t")
+
+[node name="ScreenWrap" parent="." instance=ExtResource("3_0ye32")]
 
 [node name="Lifetime" type="Timer" parent="."]
 one_shot = true
