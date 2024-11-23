@@ -30,6 +30,8 @@ var player_spawn_position: Vector2
 var current_level := 1
 var current_score := 0
 
+@onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
+
 func _ready() -> void:
 	player_spawn_position = get_viewport().size / 2
 	new_level()
@@ -40,6 +42,8 @@ func _on_player_hit() -> void:
 
 
 func _on_asteroid_hit(value: int, asteroid: Asteroid) -> void:
+	audio_stream_player_2d.global_position = asteroid.global_position
+	audio_stream_player_2d.play()
 	current_score += value
 
 	match value:
@@ -85,7 +89,10 @@ func respawn_player() -> void:
 
 func wipe(group: String) -> void:
 	for child in get_children():
-		if child is Player: child.queue_free()
+		if child.is_in_group("no_wipe"):
+			continue
+		if child is Player:
+			child.queue_free()
 		if group != "all" && !child.is_in_group(group):
 			continue
 		child.queue_free()

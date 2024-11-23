@@ -1,12 +1,10 @@
 class_name RocketLauncher
 extends Node2D
 
-
 @onready var fire_rate: Timer = $"Fire Rate"
-
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 @export var rocket := preload("res://scenes/rocket.tscn")
-
 
 var can_shoot := true
 
@@ -25,6 +23,7 @@ func fire() -> void:
 	new_rocket.global_rotation_degrees = global_rotation_degrees
 	get_parent().add_sibling(new_rocket)
 	can_shoot = false
+	audio_stream_player.play()
 
 	fire_rate.start()
 
