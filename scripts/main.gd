@@ -52,16 +52,23 @@ func _on_asteroid_hit(value: int, asteroid: Asteroid) -> void:
 		50:
 			spawn_asteroid(Asteroid.Size.SMALL, asteroid.global_position)
 		100:
+			pass
+
+
+func _on_asteroid_destroyed() -> void:
+	var children := get_children()
+	for child in get_children():
+		if child is Asteroid:
 			return
+	current_level += 1
+	new_level()
 
 
 func new_level() -> void:
 	wipe("all")
 	respawn_player()
-	spawn_asteroid(Asteroid.Size.LARGE)
-	spawn_asteroid(Asteroid.Size.LARGE)
-	spawn_asteroid(Asteroid.Size.LARGE)
-	spawn_asteroid(Asteroid.Size.LARGE)
+	for level in current_level:
+		spawn_asteroid(Asteroid.Size.LARGE)
 
 
 func spawn_asteroid(size: Asteroid.Size, position := get_random_spawn_point()) -> void:
@@ -70,6 +77,7 @@ func spawn_asteroid(size: Asteroid.Size, position := get_random_spawn_point()) -
 	new_asteroid.size = size
 	new_asteroid.global_position = position
 	new_asteroid.hit.connect(_on_asteroid_hit)
+	new_asteroid.tree_exited.connect(_on_asteroid_destroyed)
 	add_child(new_asteroid)
 
 
