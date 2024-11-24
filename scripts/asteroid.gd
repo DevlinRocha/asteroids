@@ -24,6 +24,7 @@ func _ready() -> void:
 	var polarity := [-1, 1]
 	direction = Vector2(randi_range(min_speed, max_speed) * polarity[(randi() % polarity.size())], randi_range(min_speed, max_speed) * polarity[(randi() % polarity.size())])
 
+
 func _draw() -> void:
 	draw_circle(Vector2(0, 0), size, Color.DIM_GRAY, 1)
 	collision_shape_2d.shape.radius = size
@@ -38,15 +39,14 @@ func _on_area_entered(area: Area2D) -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	body.hit.emit()
 	resize()
+	body.hit.emit()
 
 
 func set_size(value: Size) -> void:
 	size = value
 	max_speed += 32
 	direction = Vector2(randi_range(direction.x, (max_speed + direction.x) * (abs(direction.x) / direction.x)), randi_range(direction.y, (max_speed + direction.y) * (abs(direction.y) / direction.y)))
-
 	queue_redraw()
 
 
