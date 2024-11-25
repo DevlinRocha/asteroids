@@ -3,8 +3,9 @@ extends CharacterBody2D
 
 signal hit
 
-const SPEED = 256.0
-const TURN_SPEED = 2.0
+const MAX_SPEED := 800
+const SPEED := 256.0
+const TURN_SPEED := 2.0
 
 @onready var rocket_launcher: RocketLauncher = $RocketLauncher
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
@@ -35,6 +36,7 @@ func _physics_process(delta: float) -> void:
 		velocity += transform.y * SPEED * delta
 	else:
 		audio_stream_player.stop()
+	velocity = velocity.limit_length(MAX_SPEED)
 
 	var shooting := Input.is_action_pressed("shoot")
 	if shooting:
@@ -55,11 +57,11 @@ func accelerate() -> void:
 		return
 
 	var absolute_velocity = abs(velocity)
-	if absolute_velocity.x > 640 || absolute_velocity.y > 640:
+	if absolute_velocity.x >= 640 || absolute_velocity.y >= 640:
 		audio_stream_player.stream = SPACESHIP_ACCELERATING_PHASE_3
 		audio_stream_player.play()
 		return
-	if absolute_velocity.x > 160 || absolute_velocity.y > 160:
+	if absolute_velocity.x >= 160 || absolute_velocity.y >= 160:
 		audio_stream_player.stream = SPACESHIP_ACCELERATING_PHASE_2
 		audio_stream_player.play()
 		return
