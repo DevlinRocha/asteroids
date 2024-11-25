@@ -30,6 +30,9 @@ func _physics_process(delta: float) -> void:
 	if acceleration == -1:
 		accelerate()
 		velocity += transform.y * acceleration * SPEED * delta
+	elif acceleration == 1:
+		accelerate()
+		velocity += transform.y * SPEED * delta
 	else:
 		audio_stream_player.stop()
 
