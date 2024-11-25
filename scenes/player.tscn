@@ -19,3 +19,6 @@ polygon = PackedVector2Array(0, -32, -32, 32, -22, 32, 0, 16, 22, 32, 32, 32)
 position = Vector2(0, -27)
 
 [node name="ScreenWrap" parent="." instance=ExtResource("4_wobbm")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"
