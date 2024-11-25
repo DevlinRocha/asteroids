@@ -1,17 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://cbd7vsp0eeex4"]
+[gd_scene load_steps=3 format=3 uid="uid://cbd7vsp0eeex4"]
 
 [ext_resource type="Script" path="res://scripts/asteroid.gd" id="1_a1bsu"]
 [ext_resource type="PackedScene" uid="uid://b0aee6c2tdk3d" path="res://scenes/screen_wrap.tscn" id="2_eq1xv"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_wiywb"]
-radius = 64.0
 
 [node name="Asteroid" type="Area2D"]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_a1bsu")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_wiywb")
 
 [node name="ScreenWrap" parent="." instance=ExtResource("2_eq1xv")]
