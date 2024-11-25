@@ -9,10 +9,7 @@ const TURN_SPEED := 2.0
 
 @onready var rocket_launcher: RocketLauncher = $RocketLauncher
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
-
-const SPACESHIP_ACCELERATING_PHASE_1 := preload("res://assets/sfx/spaceship_accelerating/Spaceship Accelerating - Phase 1.wav")
-const SPACESHIP_ACCELERATING_PHASE_2 := preload("res://assets/sfx/spaceship_accelerating/Spaceship Accelerating - Phase 2.wav")
-const SPACESHIP_ACCELERATING_PHASE_3 := preload("res://assets/sfx/spaceship_accelerating/Spaceship Accelerating - Phase 3 (Loop).wav")
+@onready var music: AudioStreamPlaybackInteractive = audio_stream_player.get_stream_playback()
 
 
 func _ready() -> void:
@@ -56,15 +53,4 @@ func accelerate() -> void:
 	if audio_stream_player.playing:
 		return
 
-	var absolute_velocity = abs(velocity)
-	if absolute_velocity.x >= 640 || absolute_velocity.y >= 640:
-		audio_stream_player.stream = SPACESHIP_ACCELERATING_PHASE_3
-		audio_stream_player.play()
-		return
-	if absolute_velocity.x >= 160 || absolute_velocity.y >= 160:
-		audio_stream_player.stream = SPACESHIP_ACCELERATING_PHASE_2
-		audio_stream_player.play()
-		return
-	else:
-		audio_stream_player.stream = SPACESHIP_ACCELERATING_PHASE_1
-		audio_stream_player.play()
+	audio_stream_player.play()

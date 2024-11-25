@@ -1,9 +1,34 @@
-[gd_scene load_steps=5 format=3 uid="uid://sid1k1bruikk"]
+[gd_scene load_steps=9 format=3 uid="uid://sid1k1bruikk"]
 
 [ext_resource type="Texture2D" uid="uid://dexcj66ug87n0" path="res://assets/Ship.svg" id="1_hdk66"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_xc0ft"]
 [ext_resource type="PackedScene" uid="uid://b4tqp3l1oqsen" path="res://scenes/rocket_launcher.tscn" id="3_qa35o"]
 [ext_resource type="PackedScene" uid="uid://b0aee6c2tdk3d" path="res://scenes/screen_wrap.tscn" id="4_wobbm"]
+[ext_resource type="AudioStream" uid="uid://ikeiichekv60" path="res://assets/sfx/spaceship_accelerating/Spaceship Accelerating - Phase 1.wav" id="5_vd8p2"]
+[ext_resource type="AudioStream" uid="uid://beg7lmgl7bnfy" path="res://assets/sfx/spaceship_accelerating/Spaceship Accelerating - Phase 2.wav" id="6_bj384"]
+[ext_resource type="AudioStream" uid="uid://byivce5vj4xwq" path="res://assets/sfx/spaceship_accelerating/Spaceship Accelerating - Phase 3 (Loop).wav" id="7_dch3p"]
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_axj1d"]
+clip_count = 3
+clip_0/name = &"Phase 1"
+clip_0/stream = ExtResource("5_vd8p2")
+clip_0/auto_advance = 1
+clip_0/next_clip = 1
+clip_1/name = &"Phase 2"
+clip_1/stream = ExtResource("6_bj384")
+clip_1/auto_advance = 1
+clip_1/next_clip = 2
+clip_2/name = &"Phase 3"
+clip_2/stream = ExtResource("7_dch3p")
+clip_2/auto_advance = 0
+_transitions = {
+Vector2i(-1, -1): {
+"fade_beats": 1,
+"fade_mode": 4,
+"from_time": 3,
+"to_time": 1
+}
+}
 
 [node name="Player" type="CharacterBody2D"]
 motion_mode = 1
@@ -21,5 +46,6 @@ position = Vector2(0, -27)
 [node name="ScreenWrap" parent="." instance=ExtResource("4_wobbm")]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamInteractive_axj1d")
 volume_db = -4.0
 bus = &"SFX"
