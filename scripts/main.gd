@@ -27,6 +27,7 @@ const ASTEROID_SPAWN_POSITION := {
 	},
 }
 var player_spawn_position: Vector2
+var player_spawn_timer: SceneTreeTimer
 var current_level := 1
 var current_score := 0
 
@@ -38,7 +39,8 @@ func _ready() -> void:
 
 
 func _on_player_hit() -> void:
-	get_tree().create_timer(3).timeout.connect(respawn_player)
+	player_spawn_timer = get_tree().create_timer(3)
+	player_spawn_timer.timeout.connect(respawn_player)
 
 
 func _on_asteroid_hit(value: int, asteroid: Asteroid) -> void:
@@ -65,6 +67,9 @@ func _on_asteroid_destroyed() -> void:
 
 
 func new_level() -> void:
+	if player_spawn_timer:
+		player_spawn_timer.timeout.disconnect(respawn_player)
+
 	wipe("all")
 	respawn_player()
 	for level in current_level:
