@@ -11,8 +11,7 @@ var max_speed := 128
 @export var size := Size.LARGE : set = set_size
 
 var direction: Vector2
-
-@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+var hitbox: CollisionShape2D
 
 
 func _ready() -> void:
@@ -26,8 +25,15 @@ func _ready() -> void:
 
 
 func _draw() -> void:
+	if hitbox:
+		hitbox.queue_free()
+
+	hitbox = CollisionShape2D.new()
+	var new_circle_shape := CircleShape2D.new()
+	new_circle_shape.radius = size
+	hitbox.shape = new_circle_shape
+	add_child(hitbox)
 	draw_circle(Vector2(0, 0), size, Color.DIM_GRAY, 1)
-	collision_shape_2d.shape.radius = size
 
 
 func _physics_process(delta: float) -> void:
@@ -52,12 +58,12 @@ func set_size(value: Size) -> void:
 
 func resize() -> void:
 	match size:
-		64:
+		Size.LARGE:
 			hit.emit(20, self)
 			set_size(32)
-		32:
+		Size.MEDIUM:
 			hit.emit(50, self)
 			set_size(16)
-		16:
+		Size.SMALL:
 			hit.emit(100, self)
 			queue_free()
