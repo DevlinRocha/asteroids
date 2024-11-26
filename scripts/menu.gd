@@ -30,6 +30,8 @@ func _on_restart_pressed() -> void:
 	audio_stream_player.play()
 	is_game_over = false
 	game_restart.emit()
+	visible = false
+	get_tree().paused = false
 
 
 func _on_quit_pressed() -> void:

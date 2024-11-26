@@ -38,6 +38,9 @@ var high_score := 0
 
 func _ready() -> void:
 	load_score()
+	if not menu.game_restart.is_connected(restart):
+		menu.game_restart.connect(restart)
+
 	player_spawn_position = get_viewport().size / 2
 	new_level()
 
@@ -134,3 +137,9 @@ func wipe(group: String) -> void:
 		if group != "all" && !child.is_in_group(group):
 			continue
 		child.queue_free()
+
+
+func restart() -> void:
+	current_level = 1
+	set_score(0)
+	new_level()
