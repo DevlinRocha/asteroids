@@ -84,3 +84,5 @@ text = "Quit"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_q3tmy")
+volume_db = -8.0
+bus = &"UI"
