@@ -27,7 +27,7 @@ const ASTEROID_SPAWN_POSITION := {
 	},
 }
 var player_spawn_position: Vector2
-var player_spawn_timer: SceneTreeTimer
+var scene_tree_timer: SceneTreeTimer
 var current_level := 1
 var current_score := 0 : set = set_score
 var high_score := 0
@@ -35,6 +35,7 @@ var high_score := 0
 @onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
 @onready var life_counter: HBoxContainer = %LifeCounter
 @onready var menu: ColorRect = %Menu
+@onready var score: Label = %Score
 
 
 func _ready() -> void:
@@ -47,8 +48,17 @@ func _ready() -> void:
 
 
 func _on_player_hit() -> void:
-	player_spawn_timer = get_tree().create_timer(3)
-	player_spawn_timer.timeout.connect(respawn_player)
+	if life_counter.get_child(0):
+		life_counter.get_child(0).queue_free()
+	if life_counter.get_child_count() <= 0:
+		if scene_tree_timer:
+			scene_tree_timer.timeout.disconnect(respawn_player)
+		scene_tree_timer = get_tree().create_timer(3, false)
+		scene_tree_timer.timeout.connect(game_over)
+		return
+
+	scene_tree_timer = get_tree().create_timer(3, false)
+	scene_tree_timer.timeout.connect(respawn_player)
 
 
 func _on_asteroid_hit(value: int, asteroid: Asteroid) -> void:
@@ -70,13 +80,20 @@ func _on_asteroid_destroyed() -> void:
 	for child in get_children():
 		if child is Asteroid:
 			return
-	current_level += 1
-	new_level()
+
+	if life_counter.get_child_count() <= 0:
+		return
+
+	get_tree().create_timer(3, false).timeout.connect(
+		func() -> void:
+			current_level += 1
+			new_level()
+	)
 
 
 func new_level() -> void:
-	if player_spawn_timer:
-		player_spawn_timer.timeout.disconnect(respawn_player)
+	if scene_tree_timer:
+		scene_tree_timer.timeout.disconnect(respawn_player)
 
 	wipe("all")
 	respawn_player()
@@ -86,6 +103,7 @@ func new_level() -> void:
 
 func set_score(value: int) -> void:
 	current_score = value
+	score.text = str(value)
 	if value > high_score:
 		high_score = value
 		save_score()
@@ -141,7 +159,18 @@ func wipe(group: String) -> void:
 
 
 func restart() -> void:
+	if scene_tree_timer:
+		scene_tree_timer.timeout.disconnect(respawn_player)
+		scene_tree_timer.timeout.disconnect(game_over)
+
 	life_counter.reset()
 	current_level = 1
 	set_score(0)
 	new_level()
+
+
+func game_over() -> void:
+	save_score()
+	get_tree().paused = true
+	menu.visible = true
+	menu.game_over()
