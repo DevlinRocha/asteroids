@@ -20,6 +20,9 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if is_game_over:
+		return
+
 	if event.is_action_pressed("pause"):
 		menu_label.text = "Game Paused"
 		get_tree().paused = !get_tree().paused
