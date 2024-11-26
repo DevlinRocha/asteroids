@@ -1,0 +1,82 @@
+[gd_scene load_steps=2 format=3 uid="uid://8ki2f46xvpys"]
+
+[ext_resource type="Script" path="res://scripts/menu.gd" id="1_qn6si"]
+
+[node name="Menu" type="ColorRect"]
+process_mode = 3
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.501961)
+script = ExtResource("1_qn6si")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="MenuLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Game Paused"
+horizontal_alignment = 1
+
+[node name="Score" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/Score"]
+layout_mode = 2
+text = "Score:"
+horizontal_alignment = 1
+
+[node name="Score" type="Label" parent="CenterContainer/VBoxContainer/Score"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+
+[node name="HighScore" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/HighScore"]
+layout_mode = 2
+text = "High Score:"
+horizontal_alignment = 1
+
+[node name="HighScore" type="Label" parent="CenterContainer/VBoxContainer/HighScore"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+
+[node name="Placeholder" type="Control" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Restart" type="Button" parent="CenterContainer/VBoxContainer/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(72, 32)
+layout_mode = 2
+text = "Restart"
+
+[node name="Quit" type="Button" parent="CenterContainer/VBoxContainer/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(72, 32)
+layout_mode = 2
+text = "Quit"
