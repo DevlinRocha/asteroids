@@ -155,7 +155,7 @@ func load_score() -> void:
 		return
 
 	var save_file := FileAccess.open("user://savegame.save", FileAccess.READ)
-	menu.set_high_score(int(save_file.get_as_text()))
+	set_score(int(save_file.get_as_text()))
 
 
 func spawn_asteroid(size: Asteroid.Size, position := get_random_spawn_point()) -> void:
