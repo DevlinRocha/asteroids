@@ -22,6 +22,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if jumping:
+		audio_stream_player.stop()
 		return
 
 	var direction := Input.get_axis("left", "right")
