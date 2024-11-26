@@ -9,6 +9,7 @@ var is_game_over := false
 @onready var high_score: Label = %HighScore
 @onready var restart: Button = %Restart
 @onready var quit: Button = %Quit
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -26,12 +27,14 @@ func _input(event: InputEvent) -> void:
 
 
 func _on_restart_pressed() -> void:
+	audio_stream_player.play()
 	is_game_over = false
 	game_restart.emit()
 
 
 func _on_quit_pressed() -> void:
-	get_tree().quit()
+	audio_stream_player.finished.connect(get_tree().quit)
+	audio_stream_player.play()
 
 
 func set_score(value: int) -> void:

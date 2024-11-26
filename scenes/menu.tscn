@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://8ki2f46xvpys"]
+[gd_scene load_steps=3 format=3 uid="uid://8ki2f46xvpys"]
 
 [ext_resource type="Script" path="res://scripts/menu.gd" id="1_qn6si"]
+[ext_resource type="AudioStream" uid="uid://dyya7tc46igso" path="res://assets/sfx/UI Menu Selection Change.wav" id="2_q3tmy"]
 
 [node name="Menu" type="ColorRect"]
 process_mode = 3
@@ -80,3 +81,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(72, 32)
 layout_mode = 2
 text = "Quit"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_q3tmy")
