@@ -33,6 +33,7 @@ var current_score := 0 : set = set_score
 var high_score := 0
 
 @onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var life_counter: HBoxContainer = %LifeCounter
 @onready var menu: ColorRect = %Menu
 
 
@@ -42,7 +43,7 @@ func _ready() -> void:
 		menu.game_restart.connect(restart)
 
 	player_spawn_position = get_viewport().size / 2
-	new_level()
+	restart()
 
 
 func _on_player_hit() -> void:
@@ -140,6 +141,7 @@ func wipe(group: String) -> void:
 
 
 func restart() -> void:
+	life_counter.reset()
 	current_level = 1
 	set_score(0)
 	new_level()
