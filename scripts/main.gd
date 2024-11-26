@@ -26,7 +26,7 @@ const ASTEROID_SPAWN_POSITION := {
 		MAX_Y = 512,
 	},
 }
-var player_spawn_position: Vector2
+var viewport_size: Vector2
 var scene_tree_timer: SceneTreeTimer
 var current_level := 1
 var current_score := 0 : set = set_score
@@ -43,7 +43,7 @@ func _ready() -> void:
 	if not menu.game_restart.is_connected(restart):
 		menu.game_restart.connect(restart)
 
-	player_spawn_position = get_viewport().size / 2
+	viewport_size = get_viewport().size
 	restart()
 
 
@@ -58,6 +58,10 @@ func _on_player_hit() -> void:
 
 	scene_tree_timer = get_tree().create_timer(3, false)
 	scene_tree_timer.timeout.connect(respawn_player)
+
+
+func _on_player_hyperspace(player: Player) -> void:
+	player.global_position = Vector2(randi_range(0, viewport_size.x), randi_range(0, viewport_size.y))
 
 
 func _on_asteroid_hit(value: int, asteroid: Asteroid) -> void:
@@ -145,8 +149,9 @@ func get_random_spawn_point() -> Vector2:
 func respawn_player() -> void:
 	const PLAYER := preload("res://scenes/player.tscn")
 	var new_player := PLAYER.instantiate()
-	new_player.global_position = player_spawn_position
+	new_player.global_position = viewport_size / 2
 	new_player.hit.connect(_on_player_hit)
+	new_player.hyperspace.connect(_on_player_hyperspace)
 	add_child(new_player)
 
 

@@ -2,6 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 signal hit
+signal hyperspace
 
 const MAX_SPEED := 800
 const SPEED := 256.0
@@ -38,6 +39,9 @@ func _physics_process(delta: float) -> void:
 	var shooting := Input.is_action_pressed("shoot")
 	if shooting:
 		rocket_launcher.fire()
+
+	if Input.is_action_just_pressed("hyperspace"):
+		hyperspace.emit(self)
 
 	move_and_slide()
 
