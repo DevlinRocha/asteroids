@@ -8,6 +8,8 @@ const MAX_SPEED := 800
 const SPEED := 256.0
 const TURN_SPEED := 2.0
 
+var jumping := false
+
 @onready var rocket_launcher: RocketLauncher = $RocketLauncher
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 @onready var music: AudioStreamPlaybackInteractive = audio_stream_player.get_stream_playback()
@@ -19,6 +21,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if jumping:
+		return
+
 	var direction := Input.get_axis("left", "right")
 	if direction:
 		rotation_degrees = rotate_toward(global_rotation_degrees, global_rotation_degrees + direction * TURN_SPEED, TURN_SPEED)
