@@ -213,7 +213,6 @@ func game_over() -> void:
 	audio_stream_player.finished.connect(
 		func() -> void:
 			audio_stream_player.stream = BIT
-			get_tree().paused = true
 	)
 	audio_stream_player.play()
 
