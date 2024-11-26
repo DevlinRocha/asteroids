@@ -47,5 +47,5 @@ position = Vector2(0, -27)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamInteractive_axj1d")
-volume_db = -4.0
+volume_db = -6.0
 bus = &"SFX"
