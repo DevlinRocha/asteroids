@@ -216,6 +216,5 @@ func game_over() -> void:
 	)
 	audio_stream_player.play()
 
-	save_score()
 	menu.visible = true
 	menu.game_over()
