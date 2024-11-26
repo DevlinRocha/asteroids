@@ -179,6 +179,7 @@ func get_random_spawn_point() -> Vector2:
 
 
 func respawn_player() -> void:
+	audio_stream_player.stop()
 	const PLAYER := preload("res://scenes/player.tscn")
 	var new_player := PLAYER.instantiate()
 	new_player.global_position = viewport_size / 2
