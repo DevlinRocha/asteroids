@@ -61,7 +61,19 @@ func _on_player_hit() -> void:
 
 
 func _on_player_hyperspace(player: Player) -> void:
-	player.global_position = Vector2(randi_range(0, viewport_size.x), randi_range(0, viewport_size.y))
+	player.collision_layer = 0
+	player.jumping = true
+	player.velocity = Vector2(0, 0)
+
+	var tween = create_tween()
+	tween.tween_property(player, "rotation", player.rotation + 8, 1)
+	tween.tween_property(player, "global_position", Vector2(randi_range(0, viewport_size.x), randi_range(0, viewport_size.y)), 0)
+	tween.tween_callback(
+		func() -> void:
+			player.jumping = false
+			player.collision_layer = 1
+			tween.kill()
+	)
 
 
 func _on_asteroid_hit(value: int, asteroid: Asteroid) -> void:
