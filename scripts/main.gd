@@ -50,7 +50,7 @@ func _on_player_hit() -> void:
 func _on_asteroid_hit(value: int, asteroid: Asteroid) -> void:
 	audio_stream_player_2d.global_position = asteroid.global_position
 	audio_stream_player_2d.play()
-	set_score(value)
+	set_score(current_score + value)
 
 	match value:
 		20:
