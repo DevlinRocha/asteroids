@@ -208,15 +208,14 @@ func restart() -> void:
 
 func game_over() -> void:
 	const GAME_OVER = preload("res://assets/sfx/Game Over.wav")
-	const BIT_HIT = preload("res://assets/sfx/8-Bit Hit.wav")
-
-	audio_stream_player_2d.stream = GAME_OVER
-	audio_stream_player_2d.finished.connect(
+	const BIT = preload("res://assets/sfx/8-Bit.wav")
+	audio_stream_player.stream = GAME_OVER
+	audio_stream_player.finished.connect(
 		func() -> void:
-			audio_stream_player_2d.stream = BIT_HIT
+			audio_stream_player.stream = BIT
 			get_tree().paused = true
 	)
-	audio_stream_player_2d.play()
+	audio_stream_player.play()
 
 	save_score()
 	menu.visible = true
