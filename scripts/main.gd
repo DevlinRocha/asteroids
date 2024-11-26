@@ -41,6 +41,8 @@ var high_score := 0
 
 func _ready() -> void:
 	load_score()
+	if not life_counter.life_lost.is_connected(_on_life_lost):
+		life_counter.life_lost.connect(_on_life_lost)
 	if not menu.game_restart.is_connected(restart):
 		menu.game_restart.connect(restart)
 
@@ -51,14 +53,16 @@ func _ready() -> void:
 func _on_player_hit() -> void:
 	if life_counter.get_child(0):
 		life_counter.get_child(0).queue_free()
+
+	scene_tree_timer = get_tree().create_timer(3, false)
+	scene_tree_timer.timeout.connect(respawn_player)
+
+
+func _on_life_lost() -> void:
 	if life_counter.get_child_count() <= 0:
 		if scene_tree_timer:
 			scene_tree_timer.timeout.disconnect(respawn_player)
 		game_over()
-		return
-
-	scene_tree_timer = get_tree().create_timer(3, false)
-	scene_tree_timer.timeout.connect(respawn_player)
 
 
 func _on_player_hyperspace(player: Player) -> void:
