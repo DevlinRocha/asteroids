@@ -70,8 +70,18 @@ func _on_player_hyperspace(player: Player) -> void:
 	tween.tween_property(player, "global_position", Vector2(randi_range(0, viewport_size.x), randi_range(0, viewport_size.y)), 0)
 	tween.tween_callback(
 		func() -> void:
+			if !player:
+				tween.kill()
+				return
 			player.jumping = false
-			player.collision_layer = 1
+
+			get_tree().create_timer(0, false).timeout.connect(
+				func() -> void:
+					if !player:
+						tween.kill()
+						return
+					player.collision_layer = 1
+			)
 			tween.kill()
 	)
 
