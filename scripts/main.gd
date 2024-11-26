@@ -29,11 +29,15 @@ const ASTEROID_SPAWN_POSITION := {
 var player_spawn_position: Vector2
 var player_spawn_timer: SceneTreeTimer
 var current_level := 1
-var current_score := 0
+var current_score := 0 : set = set_score
+var high_score := 0
 
 @onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var menu: ColorRect = %Menu
+
 
 func _ready() -> void:
+	load_score()
 	player_spawn_position = get_viewport().size / 2
 	new_level()
 
@@ -46,7 +50,7 @@ func _on_player_hit() -> void:
 func _on_asteroid_hit(value: int, asteroid: Asteroid) -> void:
 	audio_stream_player_2d.global_position = asteroid.global_position
 	audio_stream_player_2d.play()
-	current_score += value
+	set_score(value)
 
 	match value:
 		20:
@@ -74,6 +78,27 @@ func new_level() -> void:
 	respawn_player()
 	for level in current_level:
 		spawn_asteroid(Asteroid.Size.LARGE)
+
+
+func set_score(value: int) -> void:
+	current_score = value
+	if value > high_score:
+		high_score = value
+		save_score()
+	menu.set_score(value)
+
+
+func save_score() -> void:
+	var save_file := FileAccess.open("user://savegame.save", FileAccess.WRITE_READ)
+	save_file.store_line(str(current_score))
+
+
+func load_score() -> void:
+	if not FileAccess.file_exists("user://savegame.save"):
+		return
+
+	var save_file := FileAccess.open("user://savegame.save", FileAccess.READ)
+	menu.set_high_score(int(save_file.get_as_text()))
 
 
 func spawn_asteroid(size: Asteroid.Size, position := get_random_spawn_point()) -> void:
