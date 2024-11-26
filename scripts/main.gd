@@ -119,7 +119,7 @@ func _on_asteroid_destroyed() -> void:
 	if life_counter.get_child_count() <= 0:
 		return
 
-	get_tree().create_timer(3, false).timeout.connect(
+	get_tree().create_timer(2, false).timeout.connect(
 		func() -> void:
 			current_level += 1
 			new_level()
