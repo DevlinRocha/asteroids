@@ -53,8 +53,7 @@ func _on_player_hit() -> void:
 	if life_counter.get_child_count() <= 0:
 		if scene_tree_timer:
 			scene_tree_timer.timeout.disconnect(respawn_player)
-		scene_tree_timer = get_tree().create_timer(3, false)
-		scene_tree_timer.timeout.connect(game_over)
+		game_over()
 		return
 
 	scene_tree_timer = get_tree().create_timer(3, false)
@@ -63,9 +62,13 @@ func _on_player_hit() -> void:
 
 func _on_asteroid_hit(value: int, asteroid: Asteroid) -> void:
 	audio_stream_player_2d.global_position = asteroid.global_position
+	audio_stream_player_2d.finished.connect(
+		func() -> void:
+			audio_stream_player_2d.global_position = Vector2(0, 0)
+	)
 	audio_stream_player_2d.play()
-	set_score(current_score + value)
 
+	set_score(current_score + value)
 	match value:
 		20:
 			spawn_asteroid(Asteroid.Size.MEDIUM, asteroid.global_position)
@@ -159,6 +162,7 @@ func wipe(group: String) -> void:
 
 
 func restart() -> void:
+	audio_stream_player_2d.stop()
 	if scene_tree_timer:
 		scene_tree_timer.timeout.disconnect(respawn_player)
 		scene_tree_timer.timeout.disconnect(game_over)
@@ -170,7 +174,17 @@ func restart() -> void:
 
 
 func game_over() -> void:
+	const GAME_OVER = preload("res://assets/sfx/Game Over.wav")
+	const BIT_HIT = preload("res://assets/sfx/8-Bit Hit.wav")
+
+	audio_stream_player_2d.stream = GAME_OVER
+	audio_stream_player_2d.finished.connect(
+		func() -> void:
+			audio_stream_player_2d.stream = BIT_HIT
+			get_tree().paused = true
+	)
+	audio_stream_player_2d.play()
+
 	save_score()
-	get_tree().paused = true
 	menu.visible = true
 	menu.game_over()
