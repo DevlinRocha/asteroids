@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bedi235rdjhmp"]
+[gd_scene load_steps=8 format=3 uid="uid://bedi235rdjhmp"]
 
 [ext_resource type="PackedScene" uid="uid://sid1k1bruikk" path="res://scenes/player.tscn" id="1_go3r2"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_ivmiq"]
 [ext_resource type="PackedScene" uid="uid://cbd7vsp0eeex4" path="res://scenes/asteroid.tscn" id="2_rhbfn"]
 [ext_resource type="AudioStream" uid="uid://bywlrohpqqfr5" path="res://assets/sfx/8-Bit Hit.wav" id="4_x5q8t"]
 [ext_resource type="PackedScene" uid="uid://8ki2f46xvpys" path="res://scenes/menu.tscn" id="5_fekmo"]
+[ext_resource type="AudioStream" uid="uid://b766abof5gsp6" path="res://assets/sfx/8-Bit.wav" id="5_wcc4i"]
 [ext_resource type="Script" path="res://scenes/life_counter.gd" id="6_58ywe"]
 
 [node name="Main" type="Node"]
@@ -19,6 +20,11 @@ position = Vector2(384, 128)
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." groups=["no_wipe"]]
 stream = ExtResource("4_x5q8t")
 volume_db = -12.0
+bus = &"SFX"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." groups=["no_wipe"]]
+stream = ExtResource("5_wcc4i")
+volume_db = -16.0
 bus = &"SFX"
 
 [node name="UI" type="CanvasLayer" parent="." groups=["no_wipe"]]
