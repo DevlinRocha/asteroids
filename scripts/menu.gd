@@ -1,17 +1,14 @@
 extends ColorRect
 
+signal game_restart
+
+var is_game_over := false
 
 @onready var menu_label: Label = %MenuLabel
 @onready var score: Label = %Score
 @onready var high_score: Label = %HighScore
 @onready var restart: Button = %Restart
 @onready var quit: Button = %Quit
-
-
-var is_game_over := false
-
-
-signal game_restart
 
 
 func _ready() -> void:

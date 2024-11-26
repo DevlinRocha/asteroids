@@ -5,11 +5,10 @@ signal hit
 
 enum Size { SMALL = 16, MEDIUM = 32, LARGE = 64 }
 
-var min_speed := 32
-var max_speed := 128
-
 @export var size := Size.LARGE : set = set_size
 
+var min_speed := 32
+var max_speed := 128
 var direction: Vector2
 var hitbox: CollisionShape2D
 
