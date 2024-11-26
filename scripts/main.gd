@@ -66,8 +66,11 @@ func _on_player_hyperspace(player: Player) -> void:
 	player.velocity = Vector2(0, 0)
 
 	var tween = create_tween()
-	tween.tween_property(player, "rotation", player.rotation + 8, 1)
+	tween.parallel().tween_property(player, "rotation", player.rotation + 8, 1)
+	tween.parallel().tween_property(player, "scale", Vector2(0.1, 0.1), 1)
 	tween.tween_property(player, "global_position", Vector2(randi_range(0, viewport_size.x), randi_range(0, viewport_size.y)), 0)
+	tween.parallel().tween_property(player, "rotation", player.rotation - 8, 1)
+	tween.parallel().tween_property(player, "scale", Vector2(1, 1), 1)
 	tween.tween_callback(
 		func() -> void:
 			if !player:
