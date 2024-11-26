@@ -33,6 +33,7 @@ var current_score := 0 : set = set_score
 var high_score := 0
 
 @onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 @onready var life_counter: HBoxContainer = %LifeCounter
 @onready var menu: ColorRect = %Menu
 @onready var score: Label = %Score
@@ -65,6 +66,7 @@ func _on_player_hyperspace(player: Player) -> void:
 	player.jumping = true
 	player.velocity = Vector2(0, 0)
 
+	audio_stream_player.play()
 	var tween = create_tween()
 	tween.parallel().tween_property(player, "rotation", player.rotation + 8, 1)
 	tween.parallel().tween_property(player, "scale", Vector2(0.1, 0.1), 1)
@@ -77,6 +79,7 @@ func _on_player_hyperspace(player: Player) -> void:
 				tween.kill()
 				return
 			player.jumping = false
+			audio_stream_player.stop()
 
 			get_tree().create_timer(0, false).timeout.connect(
 				func() -> void:
